@@ -1,0 +1,18 @@
+services:
+  flask-api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - JWT_SECRET_KEY=your-super-secret-jwt-key-change-in-production
+      - DATABASE_URL=sqlite:////app/data/database.db
+    volumes:
+      - ./app:/app
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

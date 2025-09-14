@@ -1,0 +1,27 @@
+meta {
+  name: auth
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:5000/auth/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"admin",
+    "password":"admin123"
+  }
+}
+
+body:multipart-form {
+  username: nikitos
+  password: nikitos2004
+}
+
+settings {
+  encodeUrl: true
+}
