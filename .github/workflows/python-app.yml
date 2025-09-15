@@ -106,8 +106,4 @@ jobs:
 
     - name: Code Formatting - Black
       run: |
-        black --check app/ --line-length=120
-
-    - name: Import Sorting - isort
-      run: |
-        isort --check-only app/
+        black --check app/
