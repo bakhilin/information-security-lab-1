@@ -34,6 +34,7 @@ class UserModel:
             ).fetchall()
             return [dict(user) for user in users]
 
+
 class PostModel:
     @staticmethod
     def get_all_posts():
@@ -52,6 +53,7 @@ class PostModel:
             )
             conn.commit()
             return cursor.lastrowid
+
 
 class StatsModel:
     @staticmethod
