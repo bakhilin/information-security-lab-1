@@ -32,33 +32,13 @@ jobs:
 
     - name: SAST - Bandit (Static Application Security Testing)
       run: |
-        bandit -r app/ -f json -o bandit-report.json || true
+        bandit -r app/
       continue-on-error: true  
-
-    - name: SAST - Bandit Report
-      if: always()
-      run: |
-        if [ -f bandit-report.json ]; then
-          echo "Bandit Results:"
-          cat bandit-report.json | jq '.results[] | "\(.filename):\(.line_number) - \(.issue_text)"' || true
-        else
-          echo "Bandit report not found"
-        fi
 
     - name: SCA - Safety (Dependency Vulnerability Check)
       run: |
-        safety check --json --output safety-report.json || true
+        safety check
       continue-on-error: true
-
-    - name: SCA - Safety Report
-      if: always()
-      run: |
-        if [ -f safety-report.json ]; then
-          echo "Safety Results:"
-          cat safety-report.json | jq '.vulnerabilities[] | "\(.package_name) \(.vulnerable_spec) - \(.advisory)"' || true
-        else
-          echo "Safety report not found"
-        fi
 
     - name: SCA - pip-audit (Dependency Audit)
       run: |

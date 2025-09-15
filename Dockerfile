@@ -15,8 +15,8 @@ WORKDIR /app/
 
 RUN python init_db.py
 
-RUN useradd -m -u 1000 user && chown -R user:user /app
-USER user
+# RUN useradd -m -u 1000 user && chown -R user:user /app
+# USER user
 
 EXPOSE 5000
 
