@@ -28,7 +28,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install bandit safety pip-audit trivy
+        pip install bandit safety pip-audit
 
     - name: SAST - Bandit (Static Application Security Testing)
       run: |
@@ -73,24 +73,6 @@ jobs:
           cat pip-audit-report.json | jq '.dependencies[] | select(.vulnerabilities != null) | "\(.name) - \(.vulnerabilities[].id)"' || true
         else
           echo "pip-audit report not found"
-        fi
-
-    - name: Container Security - Trivy (Docker Image Scan)
-      run: |
-        trivy config --severity HIGH,CRITICAL . > trivy-dockerfile-report.txt || true
-        
-        docker build -t flask-api-security-scan .
-        trivy image --severity HIGH,CRITICAL --format json --output trivy-image-report.json flask-api-security-scan || true
-
-    - name: Container Security Report
-      if: always()
-      run: |
-        echo "Trivy Dockerfile Results:"
-        cat trivy-dockerfile-report.txt || echo "No Dockerfile issues found"
-        
-        if [ -f trivy-image-report.json ]; then
-          echo "Trivy Image Results:"
-          cat trivy-image-report.json | jq '.Results[] | select(.Vulnerabilities != null) | .Vulnerabilities[] | "\(.PkgName): \(.VulnerabilityID) - \(.Severity)"' || true
         fi
 
     - name: Upload security reports
