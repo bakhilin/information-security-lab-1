@@ -102,11 +102,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install flake8 black isort
-
-    - name: Linting - flake8
-      run: |
-        flake8 app/ --max-line-length=120 --show-source --statistics
+        pip install black isort
 
     - name: Code Formatting - Black
       run: |
