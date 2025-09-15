@@ -3,7 +3,7 @@ from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity, creat
 from datetime import timedelta
 from dotenv import load_dotenv
 import os
-from models import UserModel, PostModel, StatsModel
+from models import UserModel, PostModel
 
 load_dotenv()
 
