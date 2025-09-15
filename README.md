@@ -109,10 +109,7 @@ def check_password(self, password):
 
 
 ### Bandit SAST Report
-![Bandit Report](https://via.placeholder.com/800x400?text=Bandit+SAST+Report)
+![Bandit Report](images/bandit.png)
 
 ### Safety Report
 ![Safety Report](images/safety.png)
-
-### pip-audit SCA Report  
-![pip-audit Report](https://via.placeholder.com/800x400?text=pip-audit+SCA+Report)
