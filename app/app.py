@@ -14,11 +14,16 @@ from flask_jwt_extended import (
     get_jwt,
 )
 from flask_jwt_extended.exceptions import JWTExtendedException
-from models import PostModel, UserModel
+from models import db
+from database import init_db, UserModel
 
 load_dotenv()
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
+    "DATABASE_URL",
+    "sqlite:///" + os.path.join(os.path.dirname(__file__), "..", "data", "database.db"),
+)
 app.config["JWT_SECRET_KEY"] = os.getenv(
     "JWT_SECRET_KEY", "your-super-secure-secret-key-change-in-production"
 )
@@ -32,8 +37,10 @@ app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 app.config["JWT_HEADER_NAME"] = "Authorization"
 app.config["JWT_HEADER_TYPE"] = "Bearer"
 
+db.init_app(app)
 jwt = JWTManager(app)
-
+with app.app_context():
+    init_db(app)
 token_blacklist = set()
 
 
@@ -157,4 +164,6 @@ def health_check():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    debug_mode = os.getenv("FLASK_DEBUG", "false").lower() == "true"
+    host = os.getenv("FLASK_HOST")
+    app.run(debug=debug_mode, host=host, port=5000)

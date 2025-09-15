@@ -13,7 +13,7 @@ RUN mkdir -p /app/data && chmod 755 /app/data
 
 WORKDIR /app/
 
-RUN python init_db.py
+# RUN python init_db.py
 
 # RUN useradd -m -u 1000 user && chown -R user:user /app
 # USER user
