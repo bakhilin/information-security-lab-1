@@ -1,5 +1,5 @@
 # information-security-lab-1
-Разработка безпасного backend приложения с автоматизированной проверкой кода на уязвимости.
+Разработка безопасного backend приложения с автоматизированной проверкой кода на уязвимости.
 
 ## API Endpoints
 
@@ -27,7 +27,31 @@ curl -X POST http://localhost:5000/auth/login \
 }
 ```
 
-### 2. Профиль пользователя
+### 2. Список пользователй
+
+**GET /api/data** - Получениие списка пользователей (требует аутентификации)
+```bash
+curl -X GET http://localhost:5000/api/data \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+**Response:**
+```json
+{
+    "count": 1,
+    "data": [
+        {
+            "created_at": "2025-09-15T21:11:23.149766",
+            "id": 1,
+            "role": "admin",
+            "username": "admin"
+        }
+    ]
+}
+```
+
+
+### 3. Профиль пользователя
 
 **GET /api/profile** - Получение профиля (требует аутентификации)
 ```bash

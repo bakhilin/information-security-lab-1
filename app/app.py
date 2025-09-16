@@ -136,6 +136,28 @@ def login():
         return jsonify({"error": "Internal server error"}), 500
 
 
+@app.route("/api/data", methods=["GET"])
+@jwt_required()
+def get_data():
+    try:
+        users = UserModel.get_all_users()
+        safe_users = []
+        for user in users:
+            safe_users.append(
+                {
+                    "id": user["id"],
+                    "username": html.escape(user["username"]),
+                    "role": html.escape(user["role"]),
+                    "created_at": user["created_at"],
+                }
+            )
+
+        return jsonify({"data": safe_users, "count": len(safe_users)}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Internal server error"}), 500
+
+
 @app.route("/api/profile", methods=["GET"])
 @jwt_required()
 def get_profile():
