@@ -3,6 +3,11 @@
 
 ## Как локально поднять сервис?
 
+Файл переменных окружения контейнера
+```bash
+cp .env.example app/.env
+```
+
 ```bash
 docker-compose up --build
 ```
