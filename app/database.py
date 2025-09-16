@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 def init_db(app):
-    """Инициализация базы данных"""
     with app.app_context():
         try:
             db.create_all()
@@ -23,7 +22,6 @@ def init_db(app):
 
 def create_initial_data():
     try:
-        # Создаем пользователей
         admin = User(username="admin", role="admin")
         admin.set_password("admin123")
 
@@ -47,7 +45,6 @@ def create_initial_data():
 
 @contextmanager
 def db_session():
-    """Контекстный менеджер для сессии БД"""
     try:
         yield db.session
         db.session.commit()
@@ -62,7 +59,6 @@ def db_session():
 class UserModel:
     @staticmethod
     def authenticate(username, password):
-        """Аутентификация пользователя"""
         try:
             user = User.query.filter_by(username=username).first()
             if user and user.check_password(password):
@@ -74,7 +70,6 @@ class UserModel:
 
     @staticmethod
     def get_user_data(username):
-        """Получение данных пользователя"""
         try:
             user = User.query.filter_by(username=username).first()
             return user.to_dict() if user else None
@@ -84,7 +79,6 @@ class UserModel:
 
     @staticmethod
     def get_all_users():
-        """Получение всех пользователей"""
         try:
             users = User.query.all()
             return [user.to_dict() for user in users]
@@ -94,7 +88,6 @@ class UserModel:
 
     @staticmethod
     def create_user(username, password, role="user"):
-        """Создание пользователя"""
         try:
             if User.query.filter_by(username=username).first():
                 return False, "Username already exists"

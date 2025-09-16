@@ -29,13 +29,11 @@ class User(db.Model):
     )
 
     def set_password(self, password):
-        """Хэширование пароля с bcrypt"""
         self.password_hash = bcrypt.hashpw(
             password.encode("utf-8"), bcrypt.gensalt()
         ).decode("utf-8")
 
     def check_password(self, password):
-        """Проверка пароля с защитой от timing attacks"""
         try:
             return bcrypt.checkpw(
                 password.encode("utf-8"), self.password_hash.encode("utf-8")
@@ -44,7 +42,6 @@ class User(db.Model):
             return False
 
     def to_dict(self):
-        """Сериализация в словарь"""
         return {
             "id": self.id,
             "username": self.username,

@@ -46,6 +46,15 @@ token_blacklist = set()
 
 @app.before_request
 def check_jwt():
+    """
+    Middleware to verify JWT token before processing requests.
+
+    This function runs before each request and checks for valid JWT tokens
+    except for public endpoints like login and health check.
+    
+    Returns:
+        JSON response with error message and status code if authentication fails
+    """
     public_endpoints = ["/auth/login", "/api/health"]
     if request.path in public_endpoints:
         return
@@ -69,6 +78,16 @@ def check_jwt():
 
 @jwt.token_in_blocklist_loader
 def check_if_token_revoked(jwt_header, jwt_payload):
+    """
+    Callback function to check if a JWT token has been revoked.
+    
+    Args:
+        jwt_header (dict): JWT header data
+        jwt_payload (dict): JWT payload data
+        
+    Returns:
+        bool: True if token is revoked, False otherwise
+    """
     return jwt_payload["jti"] in token_blacklist
 
 
@@ -84,6 +103,16 @@ def sanitize_output(data):
 
 @app.route("/auth/login", methods=["POST"])
 def login():
+    """
+    Authenticate user and generate JWT tokens.
+    
+    Endpoint for user authentication. Validates credentials and returns
+    access and refresh tokens upon successful authentication.
+    
+    Returns:
+        JSON response with tokens and user data on success,
+        error message with appropriate status code on failure
+    """
     try:
         data = request.get_json()
 
@@ -139,6 +168,16 @@ def login():
 @app.route("/api/data", methods=["GET"])
 @jwt_required()
 def get_data():
+    """
+    Retrieve list of all users.
+    
+    Protected endpoint that returns a list of all registered users.
+    Requires valid JWT authentication.
+    
+    Returns:
+        JSON response with user list and count on success,
+        error message with status code on failure
+    """
     try:
         users = UserModel.get_all_users()
         safe_users = []
@@ -161,6 +200,16 @@ def get_data():
 @app.route("/api/profile", methods=["GET"])
 @jwt_required()
 def get_profile():
+    """
+    Retrieve authenticated user's profile information.
+    
+    Protected endpoint that returns the profile data of the currently
+    authenticated user based on the JWT token.
+    
+    Returns:
+        JSON response with user profile data on success,
+        error message with status code if user not found or other error occurs
+    """
     try:
         user_data = UserModel.get_user_data(get_jwt_identity())
         if user_data:
