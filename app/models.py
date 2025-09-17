@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, DateTime, Text, CheckConstraint
+from sqlalchemy import Column, Integer, String, DateTime, CheckConstraint
 from sqlalchemy.ext.declarative import declarative_base
 import bcrypt
 from datetime import datetime
