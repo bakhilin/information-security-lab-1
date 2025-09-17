@@ -22,11 +22,11 @@ def init_db(app):
 
 def create_initial_data():
     try:
-        admin = User(username="admin", role="admin")
-        admin.set_password("admin123")
+        admin = User(username="bakhilin", role="admin")
+        admin.set_password("sp*9212#$")
 
-        user = User(username="user", role="user")
-        user.set_password("user123")
+        user = User(username="fedorov", role="user")
+        user.set_password("rer421*92#")
 
         db.session.add(admin)
         db.session.add(user)

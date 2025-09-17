@@ -48,30 +48,3 @@ class User(db.Model):
             "role": self.role,
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
-
-
-class Post(db.Model):
-    __tablename__ = "posts"
-
-    id = Column(Integer, primary_key=True)
-    title = Column(String(200), nullable=False)
-    content = Column(Text, nullable=False)
-    author = Column(String(50), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    # Check constraints
-    __table_args__ = (
-        CheckConstraint(
-            "LENGTH(title) >= 1 AND LENGTH(title) <= 200", name="check_title_length"
-        ),
-        CheckConstraint("LENGTH(content) >= 1", name="check_content_length"),
-    )
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "content": self.content,
-            "author": self.author,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }
